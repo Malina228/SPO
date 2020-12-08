@@ -85,5 +85,4 @@ int main()
 	CloseHandle(thread2);
 	CloseHandle(thread3);
 	CloseHandle(thread4);
-
 }
