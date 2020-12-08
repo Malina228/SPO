@@ -1,4 +1,4 @@
-﻿//  В2
+﻿// В2
 
 #include <iostream>
 #include <windows.h>
@@ -9,6 +9,7 @@ using namespace std;
 int counter1 = 0;
 int counter2 = 0;
 int counter3 = 0;
+
 
 DWORD WINAPI thread1_F(LPVOID p)
 {
@@ -51,13 +52,28 @@ DWORD WINAPI thread3_F(LPVOID p)
 	return 1;
 }
 
+DWORD WINAPI thread4_F(LPVOID p)
+{
+	while (true)
+	{
+		if ((counter1 + counter2 + counter3) % 15 == 0)
+		{
+			cout << "***поток 4***" << endl;
+			Sleep(200);
+		}
+	}
+	return 1;
+}
 
 int main()
 {
 	setlocale(LC_ALL, "rus");
+	
 	HANDLE thread1 = CreateThread(NULL, 0, thread1_F, NULL, NULL, 0);
 	HANDLE thread2 = CreateThread(NULL, 0, thread2_F, (void*)thread1, NULL, 0);
+	HANDLE thread4 = CreateThread(NULL, 0, thread4_F, NULL, NULL, 0);
 	HANDLE thread3 = CreateThread(NULL, 0, thread3_F, NULL, NULL, 0);
+	
 	SuspendThread(thread1);
 	char ch;
 
@@ -68,4 +84,6 @@ int main()
 	CloseHandle(thread1);
 	CloseHandle(thread2);
 	CloseHandle(thread3);
+	CloseHandle(thread4);
+
 }
